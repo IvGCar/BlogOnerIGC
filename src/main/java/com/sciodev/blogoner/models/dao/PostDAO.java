@@ -1,44 +1,42 @@
 package com.sciodev.blogoner.models.dao;
 
-import com.sciodev.blogoner.models.entity.User;
+import com.sciodev.blogoner.models.entity.Post;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
-@Repository("UserDAOJPA")
-public class UserDAO implements IUserDAO {
+@Repository("PostDAOJPA")
+public class PostDAO implements IPostDAO {
     @PersistenceContext
     private EntityManager entityManager;
-
     @Transactional(readOnly = true)
     @Override
-    public List<User> findAll() {
-        return entityManager.createQuery("from User").getResultList();
-    }
-
-    @Transactional
-    @Override
-    public User findOne(Long id) {
-        return entityManager.find(User.class, id);
+    public List<Post> findAll() {
+        return entityManager.createQuery("from Post").getResultList();
     }
     @Transactional
     @Override
-    public void save(User user) {
-        entityManager.persist(user);
+    public Post findOne(Long id) {
+        return entityManager.find(Post.class, id);
     }
     @Transactional
     @Override
-    public void update(User user) {
-        entityManager.merge(user);
+    public void save(Post post) {
+        entityManager.persist(post);
     }
-
     @Transactional
     @Override
-    public void delete(Long id){
+    public void update(Post post) {
+        entityManager.merge(post);
+    }
+    @Transactional
+    @Override
+    public void delete(Long id) {
         entityManager.remove(findOne(id));
         entityManager.flush();
         entityManager.clear();
     }
+
 }
